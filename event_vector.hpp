@@ -25,7 +25,7 @@ namespace ifevec
 			{
 				Callback* m_Callbacks;
 				ListenerBase** m_Listeners;
-				size_t m_Size : 8 * sizeof size_t - 2;
+				size_t m_Size : 8 * sizeof(size_t) - 2;
 				size_t m_Calling : 1;//represents if we are in the middle of calling back, no matter recursive or not.
 				size_t m_Dirty : 1;
 			};
@@ -37,7 +37,7 @@ namespace ifevec
 			};
 		};
 
-		size_t m_Capacity : 8 * sizeof size_t - 1;
+		size_t m_Capacity : 8 * sizeof(size_t) - 1;
 		size_t m_Multi : 1; //flag, 0 => holding single listener
 
 		EventBase() : m_SingleCb(), m_SingleListener(), m_Capacity(), m_Multi()
@@ -75,7 +75,7 @@ namespace ifevec
 				{
 					m_Multi = 1;
 					m_Capacity = 2;//initially 2 slots
-					Callback* callbacks = (Callback*)malloc(sizeof Callback * m_Capacity);
+					Callback* callbacks = (Callback*)malloc(sizeof(Callback) * m_Capacity);
 					callbacks[0] = m_SingleCb;
 					callbacks[1].object = object;
 					callbacks[1].func = func;
@@ -96,7 +96,7 @@ namespace ifevec
 				{
 					//grow and copy
 					m_Capacity = (m_Capacity * 3) / 2; //grow by 1.5    2->3->4->6->9...
-					m_Callbacks = (Callback*)realloc(m_Callbacks, sizeof Callback * m_Capacity);
+					m_Callbacks = (Callback*)realloc(m_Callbacks, sizeof(Callback) * m_Capacity);
 					m_Listeners = (ListenerBase * *)realloc(m_Listeners, sizeof(void*) * m_Capacity);
 				}
 				m_Callbacks[m_Size].object = object;
@@ -158,7 +158,7 @@ namespace ifevec
 				{
 					auto& cb = m_Callbacks[i];
 					if (cb.func)
-						static_cast<CallbackFuncType*>(cb.func)(cb.object, std::forward<ActualArgsT>(args)...);
+						reinterpret_cast<CallbackFuncType*>(cb.func)(cb.object, std::forward<ActualArgsT>(args)...);
 				}
 
 				if (!isRecursion)
@@ -186,12 +186,12 @@ namespace ifevec
 			else
 			{
 				if (m_SingleCb.func)
-					static_cast<CallbackFuncType*>(m_SingleCb.func)(m_SingleCb.object, std::forward<ActualArgsT>(args)...);
+					reinterpret_cast<CallbackFuncType*>(m_SingleCb.func)(m_SingleCb.object, std::forward<ActualArgsT>(args)...);
 			}
 		}
 	};
 
-	static_assert(sizeof Event<void()> == 4 * sizeof size_t);
+	static_assert(sizeof(Event<void()>) == 4 * sizeof(size_t));
 
 	template<auto EventPtr, auto CallbackPtr> struct Listener;
 
@@ -230,7 +230,7 @@ namespace ifevec
 		{
 			m_object = eventReceiver;
 			m_Event = &(eventSender->*EventPtr);
-			m_Event->add(eventReceiver, +[](void* obj, EventFuncArgsT ... args) {(static_cast<CallbackClass*>(obj)->*CallbackPtr)(args...); }, this);
+			m_Event->add(eventReceiver, (void*)+[](void* obj, EventFuncArgsT ... args) {(static_cast<CallbackClass*>(obj)->*CallbackPtr)(args...); }, this);
 		}
 
 		void disconnect()

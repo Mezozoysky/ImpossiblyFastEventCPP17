@@ -96,5 +96,3 @@ int main()
 	std::cout << "Benchmarking implementation using vector:\n";
 	BenchEventVector::test();
 }
-
-
