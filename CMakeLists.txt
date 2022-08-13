@@ -43,7 +43,7 @@ if(NOT IFE_BUNDLED)
         ARCH_INDEPENDENT
         )
     configure_package_config_file(
-        ${CMAKE_CURRENT_LIST_DIR}/IFEConfig.cmake.in
+        ${CMAKE_CURRENT_LIST_DIR}/cmake/IFEConfig.cmake.in
         ${IFE_PROJECT_CONFIG}
         INSTALL_DESTINATION ${IFE_CONFIG_INSTALL_DIR}
         )
