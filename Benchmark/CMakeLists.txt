@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 project (Benchmark)
 
-message(STATUS " -*- IFE BENCHMARK")
 add_executable(${PROJECT_NAME})
 add_executable(IFE::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 

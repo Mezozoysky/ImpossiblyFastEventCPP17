@@ -7,10 +7,6 @@ project(IFE
 add_library(${PROJECT_NAME} INTERFACE)
 add_library(IFE::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-#set_target_properties(${PROJECT_NAME}
-#                      PROPERTIES
-#                     )
-
 target_include_directories(${PROJECT_NAME}
   INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include/>
@@ -25,9 +21,6 @@ source_group(TREE ${CMAKE_CURRENT_LIST_DIR}/include/
   PREFIX ""
   FILES ${HEADERS}
   )
-# target_sources(${PROJECT_NAME}
-#   ${HEADERS}
-#   )
 
 if(NOT IFE_BUNDLED)
   install(TARGETS ${PROJECT_NAME}
