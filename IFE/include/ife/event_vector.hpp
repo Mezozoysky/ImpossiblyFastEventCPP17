@@ -1,7 +1,8 @@
 #pragma once
 
-namespace ifevec
+namespace ife::vec
 {
+
 	template<typename F> struct Event;
 
 	struct EventBase;
@@ -243,4 +244,5 @@ namespace ifevec
 			disconnect();
 		}
 	};
-}
+
+} // namespace ife::vec

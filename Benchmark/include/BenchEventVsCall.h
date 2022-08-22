@@ -2,7 +2,7 @@
 
 struct Foo
 {
-	Event<void(float)> evt;
+	ife::Event<void(float)> evt;
 };
 
 #define CONN(X, Y) X##Y
@@ -34,7 +34,7 @@ struct Bar : BarBase
 		onEvt(delta);
 	}
 
-	Listener<&Foo::evt, &Bar::onEvt> listener;
+	ife::Listener<&Foo::evt, &Bar::onEvt> listener;
 
 	void connect(Foo* foo)
 	{

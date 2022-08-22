@@ -2,7 +2,7 @@
 
 struct Foo
 {
-	Event<void(float)> evt;
+	ife::Event<void(float)> evt;
 };
 
 struct Bar
@@ -12,7 +12,7 @@ struct Bar
 		total += delta;
 	}
 
-	Listener<&Foo::evt, &Bar::onEvt> listener;
+	ife::Listener<&Foo::evt, &Bar::onEvt> listener;
 
 	Bar(Foo& foo)
 		: listener(&foo, this)
@@ -30,14 +30,14 @@ namespace ReentranceTest
 {
 	struct Foo
 	{
-		Event<void(int count)> evt;
+		ife::Event<void(int count)> evt;
 	};
 
 	struct Bar
 	{
 		void onEvt(int count);
 
-		Listener<&Foo::evt, &Bar::onEvt> listener;
+		ife::Listener<&Foo::evt, &Bar::onEvt> listener;
 		Foo* m_foo;
 		int x = 0;
 		bool flag;
@@ -110,7 +110,7 @@ void test()
 
 	//default construct
 	{
-		Listener<&Foo::evt, &Bar::onEvt> listener;
+		ife::Listener<&Foo::evt, &Bar::onEvt> listener;
 		(void)listener;
 	}
 

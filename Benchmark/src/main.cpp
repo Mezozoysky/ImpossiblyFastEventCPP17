@@ -24,7 +24,7 @@ namespace TestEventList
 				str += std::to_string(x);
 			}
 
-			Listener<&Foo::evt, &Bar::onEvt> listener;
+			ife::Listener<&Foo::evt, &Bar::onEvt> listener;
 
 			Bar(Foo& foo, std::string& str)
 				: listener(&foo, this)
@@ -65,8 +65,8 @@ namespace TestEventList
 
 namespace TestEventVector
 {
-	using ifevec::Event;
-	using ifevec::Listener;
+	using ife::vec::Event;
+	using ife::vec::Listener;
 #include "Test.h"
 }
 
@@ -77,8 +77,8 @@ namespace BenchEventList
 
 namespace BenchEventVector
 {
-	using ifevec::Event;
-	using ifevec::Listener;
+	using ife::vec::Event;
+	using ife::vec::Listener;
 #include "BenchEventVsCall.h"
 }
 

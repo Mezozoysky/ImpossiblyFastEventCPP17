@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include <xmmintrin.h>
 
+namespace ife
+{
 
 template<typename F> struct Event;
 template<typename F> struct ListenerBase;
@@ -25,7 +27,7 @@ struct Event<void(A...)>
 	using CallbackFuncType = void(void*, A...);
 	using ListenerType = ListenerBase<void(A...)>;
 
-	~Event() 
+	~Event()
 	{
 		for (auto listener = head; listener != nullptr; )
 		{
@@ -70,7 +72,7 @@ struct Event<void(A...)>
 	}
 
 	//Caches the callback of head as a small-object optimization for single callback
-	CallbackFuncType* first_func = nullptr; 
+	CallbackFuncType* first_func = nullptr;
 	void* first_object = nullptr;
 
 	ListenerType* head = nullptr;
@@ -210,3 +212,5 @@ struct Listener<EventPtr, CallbackPtr> : public ListenerBase<void(EventFuncArgsT
 		(static_cast<CallbackClass*>(obj)->*CallbackPtr)(args...);
 	}
 };
+
+} // namespace ife
