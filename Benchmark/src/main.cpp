@@ -1,7 +1,7 @@
 #include <chrono>
 #include <iostream>
 #include <ife/event.hpp>
-#include <ife/event_vector.hpp>
+#include <ife/vec/event.hpp>
 #include <functional>
 #include <string>
 #include <algorithm>

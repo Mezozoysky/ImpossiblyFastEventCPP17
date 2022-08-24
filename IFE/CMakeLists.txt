@@ -15,7 +15,7 @@ target_include_directories(${PROJECT_NAME}
 
 set(HEADERS
 	include/ife/event.hpp
-	include/ife/event_vector.hpp
+	include/ife/vec/event.hpp
 	)
 source_group(TREE ${CMAKE_CURRENT_LIST_DIR}/include/
 	PREFIX ""
