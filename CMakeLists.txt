@@ -1,63 +1,63 @@
 cmake_minimum_required(VERSION 3.9)
 project (ImpossiblyFastEvent
-         VERSION 0.1.0
-         LANGUAGES CXX
-        )
+		VERSION 0.1.0
+		LANGUAGES CXX
+		)
 set(IFE_VERSION ${PROJECT_VERSION})
 
 if(NOT DEFINED IFE_BUNDLED)
-    if("${PROJECT_SOURCE_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
-        set(IFE_BUNDLED FALSE)
-    else()
-        set(IFE_BUNDLED TRUE)
-    endif()
+	if("${PROJECT_SOURCE_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
+		set(IFE_BUNDLED FALSE)
+	else()
+		set(IFE_BUNDLED TRUE)
+	endif()
 endif()
 set(IFE_BUNDLED ${IFE_BUNDLED} CACHE BOOL "" FORCE)
 mark_as_advanced(IFE_BUNDLED)
 
 if(NOT IFE_BUNDLED)
-    include(GNUInstallDirs)
-    set(IFE_TARGETS "IFETargets")
-    set(IFE_BUILD_BENCHMARK_DEFAULT TRUE)
+	include(GNUInstallDirs)
+	set(IFE_TARGETS "IFETargets")
+	set(IFE_BUILD_BENCHMARK_DEFAULT TRUE)
 else()
-    set(IFE_BUILD_BENCHMARK_DEFAULT FALSE)
+	set(IFE_BUILD_BENCHMARK_DEFAULT FALSE)
 endif()
 
 option(IFE_BUILD_BENCHMARK "Build benchmark(s)" ${IFE_BUILD_BENCHMARK_DEFAULT})
 
 add_subdirectory(IFE)
 if(IFE_BUILD_BENCHMARK)
-    add_subdirectory(Benchmark)
+	add_subdirectory(Benchmark)
 endif()
 
 if(NOT IFE_BUNDLED)
-    include(CMakePackageConfigHelpers)
-    set(IFE_VERSION_CONFIG ${PROJECT_BINARY_DIR}/IFEConfigVersion.cmake)
-    set(IFE_PROJECT_CONFIG ${PROJECT_BINARY_DIR}/IFEConfig.cmake)
-    set(IFE_TARGETS_CONFIG ${PROJECT_BINARY_DIR}/IFETargets.cmake)
-    set(IFE_CONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/IFE/)
-    write_basic_package_version_file(
-        ${IFE_VERSION_CONFIG}
-        VERSION ${IFE_VERSION}
-        COMPATIBILITY SameMajorVersion
-        ARCH_INDEPENDENT
-        )
-    configure_package_config_file(
-        ${CMAKE_CURRENT_LIST_DIR}/cmake/IFEConfig.cmake.in
-        ${IFE_PROJECT_CONFIG}
-        INSTALL_DESTINATION ${IFE_CONFIG_INSTALL_DIR}
-        )
+include(CMakePackageConfigHelpers)
+	set(IFE_VERSION_CONFIG ${PROJECT_BINARY_DIR}/IFEConfigVersion.cmake)
+	set(IFE_PROJECT_CONFIG ${PROJECT_BINARY_DIR}/IFEConfig.cmake)
+	set(IFE_TARGETS_CONFIG ${PROJECT_BINARY_DIR}/IFETargets.cmake)
+	set(IFE_CONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/IFE/)
+	write_basic_package_version_file(
+		${IFE_VERSION_CONFIG}
+		VERSION ${IFE_VERSION}
+		COMPATIBILITY SameMajorVersion
+		ARCH_INDEPENDENT
+		)
+	configure_package_config_file(
+		${CMAKE_CURRENT_LIST_DIR}/cmake/IFEConfig.cmake.in
+		${IFE_PROJECT_CONFIG}
+		INSTALL_DESTINATION ${IFE_CONFIG_INSTALL_DIR}
+		)
 
-    export(EXPORT ${IFE_TARGETS}
-           FILE ${IFE_TARGETS_CONFIG}
-           NAMESPACE IFE::
-          )
-    install(EXPORT ${IFE_TARGETS}
-            DESTINATION ${IFE_CONFIG_INSTALL_DIR}
-            NAMESPACE IFE::
-           )
-    install(
-        FILES ${IFE_PROJECT_CONFIG} ${IFE_VERSION_CONFIG}
-        DESTINATION ${IFE_CONFIG_INSTALL_DIR}
-        )
+	export(EXPORT ${IFE_TARGETS}
+		FILE ${IFE_TARGETS_CONFIG}
+		NAMESPACE IFE::
+		)
+	install(EXPORT ${IFE_TARGETS}
+		DESTINATION ${IFE_CONFIG_INSTALL_DIR}
+		NAMESPACE IFE::
+		)
+	install(
+		FILES ${IFE_PROJECT_CONFIG} ${IFE_VERSION_CONFIG}
+		DESTINATION ${IFE_CONFIG_INSTALL_DIR}
+		)
 endif()
